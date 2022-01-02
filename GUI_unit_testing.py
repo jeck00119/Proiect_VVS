@@ -1,9 +1,9 @@
 # pylint: disable=missing-module-docstring
 # pylint: disable=missing-class-docstring
 # pylint: disable=missing-function-docstring
-
-
 import pytest
+from PyQt5 import QtCore
+
 import GUI
 
 
@@ -20,13 +20,16 @@ def test_port_label(app):
 
 
 def test_port_input_server_off(app, qtbot):
+    qtbot.keyClick(app.portInput, 'a', QtCore.Qt.ControlModifier)  # CTRL + A
     qtbot.keyClicks(app.portInput, '5741')
     assert app.portInput.text() == "5741"
 
 
 def test_port_input_server_on(app, qtbot):
+    qtbot.keyClick(app.portInput, 'a', QtCore.Qt.ControlModifier)  # CTRL + A
     qtbot.keyClicks(app.portInput, '5741')
     app.startButton.click()
+    qtbot.keyClick(app.portInput, 'a', QtCore.Qt.ControlModifier)  # CTRL + A
     qtbot.keyClicks(app.portInput, '8000')
     assert app.portInput.text() == "5741"
 
