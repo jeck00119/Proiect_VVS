@@ -1,10 +1,13 @@
+# pylint: disable=missing-module-docstring
+# pylint: disable=missing-class-docstring
+# pylint: disable=missing-function-docstring
 import sys
 from flask import Flask, render_template, request
-
 
 maintenanceMode = False
 
 app = Flask(__name__, static_folder='static')
+
 
 @app.before_request
 def before_request_func():
