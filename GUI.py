@@ -1,16 +1,16 @@
 # pylint: disable=missing-module-docstring
 # pylint: disable=missing-class-docstring
 # pylint: disable=missing-function-docstring
-import sys
 import subprocess
+import sys
+
 import requests
-from memory_profiler import profile
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QRadioButton, QLineEdit
-from PyQt5.QtGui import QIntValidator, QFont
+from PyQt5.QtGui import QFont
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QRadioButton, QSpinBox
 
 
 class WebServerUI(QWidget):
-    #@profile()
+    # @profile()
     def __init__(self):
         super().__init__()
         self.result = None
@@ -23,9 +23,9 @@ class WebServerUI(QWidget):
         self.maintenance = QRadioButton("Maintenance")
         self.maintenance.setFont(QFont('Arial', 13, QFont.Bold))
 
-        self.portInput = QLineEdit()
-        self.portInput.setValidator(QIntValidator())
-        self.portInput.setMaxLength(5)
+        self.portInput = QSpinBox(self)
+        self.portInput.setRange(100, 65535)
+        self.portInput.setValue(5000)
         self.portInput.setFont(QFont("Arial", 12, QFont.Bold))
         self.portInput.setStyleSheet("background-color : white")
 
@@ -52,6 +52,8 @@ class WebServerUI(QWidget):
         self.startButton.clicked.connect(self.start_app)
         self.stopButton.clicked.connect(self.stop_app)
         self.maintenance.toggled['bool'].connect(self.maintenance_mode)
+
+        self.show()
 
     def maintenance_mode(self):
 
