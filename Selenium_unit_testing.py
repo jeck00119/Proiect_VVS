@@ -31,12 +31,6 @@ class WebUnitTesting(unittest.TestCase):
         self.get_url = self.driver.current_url
         self.assertIn("http://127.0.0.1:5000/site1", self.get_url)
 
-    def test_page1_url(self):
-        self.link_site1 = self.driver.find_element(By.LINK_TEXT, "Access first site")
-        self.link_site1.click()
-        self.get_url = self.driver.current_url
-        self.assertIn("http://127.0.0.1:5000/site1", self.get_url)
-
     def test_page1_FirstName_input(self):
         self.link_site1 = self.driver.find_element(By.LINK_TEXT, "Access first site")
         self.link_site1.click()
@@ -64,12 +58,6 @@ class WebUnitTesting(unittest.TestCase):
         self.assertIn("Access second site", self.link_site2.text)
 
     def test_site2_link_click(self):
-        self.link_site2 = self.driver.find_element(By.LINK_TEXT, "Access second site")
-        self.link_site2.click()
-        self.get_url = self.driver.current_url
-        self.assertIn("http://127.0.0.1:5000/site2", self.get_url)
-
-    def test_page2_url(self):
         self.link_site2 = self.driver.find_element(By.LINK_TEXT, "Access second site")
         self.link_site2.click()
         self.get_url = self.driver.current_url
