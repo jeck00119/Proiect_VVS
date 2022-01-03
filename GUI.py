@@ -5,6 +5,7 @@ import subprocess
 import sys
 
 import requests
+from PyQt5 import QtCore
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QRadioButton, QSpinBox
 
@@ -16,9 +17,16 @@ class WebServerUI(QWidget):
         self.result = None
         self.status = None
 
-        self.text_label = QLabel()
-        self.text_label.setText("Port Select:")
-        self.text_label.setFont(QFont('Arial', 13, QFont.Bold))
+        self.port_label = QLabel()
+
+        self.port_label.setText("Port Select:")
+        self.port_label.setFont(QFont('Arial', 13, QFont.Bold))
+
+        self.site_label = QLabel()
+        self.site_label.setOpenExternalLinks(True)
+        self.site_label.setFont(QFont('Arial', 13, QFont.Bold))
+        self.site_label.setAlignment(QtCore.Qt.AlignCenter)
+        self.site_label.setVisible(False)
 
         self.maintenance = QRadioButton("Maintenance")
         self.maintenance.setFont(QFont('Arial', 13, QFont.Bold))
@@ -44,9 +52,10 @@ class WebServerUI(QWidget):
         self.layout = QVBoxLayout(self)
         self.layout.addWidget(self.startButton)
         self.layout.addWidget(self.stopButton)
-        self.layout.addWidget(self.text_label)
+        self.layout.addWidget(self.port_label)
         self.layout.addWidget(self.portInput)
         self.layout.addWidget(self.maintenance)
+        self.layout.addWidget(self.site_label)
         self.setLayout(self.layout)
 
         self.startButton.clicked.connect(self.start_app)
@@ -79,11 +88,14 @@ class WebServerUI(QWidget):
             self.portInput.setReadOnly(True)
             self.startButton.setStyleSheet("background-color : yellow")
             self.stopButton.setStyleSheet("background-color : #fc4503")
+            self.site_label.setText("<a href=\"http://127.0.0.1:" + self.portInput.text() + "\">'http://127.0.0.1:" + self.portInput.text() + "'</a>")
+            self.site_label.setVisible(True)
             self.status = 1
 
     def stop_app(self):
         try:
             subprocess.Popen(['taskkill', '/F', '/T', '/PID', str(self.result.pid)])
+            self.site_label.setVisible(False)
             if not self.maintenance.isChecked():
                 self.portInput.setReadOnly(False)
             else:
